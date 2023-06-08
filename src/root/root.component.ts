@@ -1,13 +1,16 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit, VERSION } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { TempCity } from './city';
+import { WeatherService } from './weather.service';
+import { AjaxResponse } from 'rxjs/ajax';
 
 @Component({
   selector: 'app-root',
   templateUrl: './root.component.html',
   styleUrls: ['./root.component.css'],
-  standalone: true,
   imports: [CommonModule],
+  providers: [WeatherService],
+  standalone: true,
 })
 export class RootComponent implements OnInit {
   title: string = 'Temperature in Angular ' + VERSION.major;
@@ -17,27 +20,20 @@ export class RootComponent implements OnInit {
     new TempCity('Genova', '18'),
   ];
   seleziona(name: string) {
-    this.selezionata = name;
+    var trovato: Array<TempCity> = this.cities.filter((el) => el.nome === name);
+    this.selezione = trovato[0];
+    this.ws.getData(this.selezione.nome).subscribe({
+      next: (x: AjaxResponse<any>) =>
+        (this.selezione.valore = x.response.main.temp),
+      error: (err) =>
+        console.error('Observer got an error: ' + JSON.stringify(err)),
+    });
   }
-  selezionata: string | undefined;
-
+  selezione: TempCity;
   clean() {
-    this.selezionata = undefined;
-  }
-
-  seleziona2(name: string) {
-    var trovato: Array<TempCity> = this.cities.filter(
-      (el) => el.nome === name //criterio per la ricerca. Ottengo un array di oggetti
-    );
-    this.selezione = trovato[0]; //ottengo l’oggetto in prima posizione, che è anche l’unico, le città sono univoche
-  }
-  selezione: TempCity | undefined;
-
-  clean2() {
     this.selezione = undefined;
   }
 
-  constructor() {}
-
+  constructor(private ws: WeatherService) {}
   ngOnInit() {}
 }

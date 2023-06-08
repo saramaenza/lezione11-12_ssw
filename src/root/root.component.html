@@ -1,27 +1,12 @@
 <h3>
   {{ title }}
 </h3>
-
-<ul>
-  <li *ngFor="let city of cities">
-    <b>{{ city.nome }}</b> - {{ city.valore }}
-  </li>
-</ul>
-
 <ul>
   <li *ngFor="let city of cities">
     <button (click)="seleziona(city.nome)">{{ city.nome }}</button>
   </li>
+  <p *ngIf="selezione !== undefined">
+    La temperatura a {{ selezione.nome }} e' di {{ selezione.valore }} gradi
+    <button (click)="clean()">Chiudi</button>
+  </p>
 </ul>
-
-<p>La citta' selezionata e' {{ selezionata }}</p>
-
-<p *ngIf="selezionata !== undefined">
-  La citta’ selezionata e’ {{ selezionata }}<br />
-  <button (click)="clean()">Chiudi</button>
-</p>
-
-<p *ngIf="selezione !== undefined">
-  La temperatura a {{ selezione.nome }} e’ di {{ selezione.valore }} gradi
-  <button (click)="clean2()">Chiudi</button>
-</p>
