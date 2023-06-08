@@ -3,10 +3,7 @@
 </h3>
 <ul>
   <li *ngFor="let city of cities">
-    <button (click)="seleziona(city.nome)">{{ city.nome }}</button>
+    <button (click)="seleziona(city)">{{ city }}</button>
   </li>
-  <p *ngIf="selezione !== undefined">
-    La temperatura a {{ selezione.nome }} e' di {{ selezione.valore }} gradi
-    <button (click)="clean()">Chiudi</button>
-  </p>
+  <app-notifica [selezione]="selezione"> </app-notifica>
 </ul>
