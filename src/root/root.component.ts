@@ -4,19 +4,19 @@ import { TempCity } from './city';
 import { WeatherService } from './weather.service';
 import { AjaxResponse } from 'rxjs/ajax';
 import { NotificaComponent } from './notifica/notifica.component';
+import { NewcityComponent } from './new-city/new-city.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './root.component.html',
   styleUrls: ['./root.component.css'],
-  imports: [CommonModule, NotificaComponent],
+  imports: [CommonModule, NotificaComponent, NewcityComponent],
   providers: [WeatherService],
   standalone: true,
 })
 export class RootComponent implements OnInit {
   title: string = 'Temperature in Angular ' + VERSION.major;
   cities: Array<string> = ['Torino', 'Milano', 'Genova'];
-
   seleziona(name: string) {
     this.selezione = new TempCity(name, undefined);
     this.ws.getData(this.selezione.nome).subscribe({
@@ -27,7 +27,9 @@ export class RootComponent implements OnInit {
     });
   }
   selezione: TempCity;
-
+  addCity(newCity: string) {
+    this.cities.push(newCity);
+  }
   constructor(private ws: WeatherService) {}
   ngOnInit() {}
 }
