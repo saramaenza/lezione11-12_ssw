@@ -22,8 +22,10 @@ export class RootComponent implements OnInit {
     this.ws.getData(this.selezione.nome).subscribe({
       next: (x: AjaxResponse<any>) =>
         (this.selezione.valore = x.response.main.temp),
-      error: (err) =>
-        console.error('Observer got an error: ' + JSON.stringify(err)),
+      error: (err) => {
+        this.selezione.valore = undefined;
+        console.error('Observer got an error: ' + JSON.stringify(err));
+      },
     });
   }
   selezione: TempCity;

@@ -1,4 +1,7 @@
 <p *ngIf="selezione !== undefined">
-  La temperatura a {{ selezione.nome }} e' di {{ selezione.valore }} gradi
+  <span *ngIf="selezione.valore !== undefined">
+    La temperatura a {{ selezione.nome }} e' di {{ selezione.valore }} gradi
+  </span>
+  <span *ngIf="selezione.valore == undefined"> Undefined </span>
   <button (click)="clean()">Chiudi</button>
 </p>
